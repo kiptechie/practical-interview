@@ -17,50 +17,43 @@ class DatabaseConnection:
             print("\n\n\Error!!! : {}\n\n\n".format(error))
 
     def drop_table(self):
-        drop_table_command = '''DROP TABLE IF EXISTS table1 CASCADE'''
-        drop_table_command2 = '''DROP TABLE IF EXISTS table2'''
-        drop_table_command3 = '''DROP TABLE IF EXISTS table3'''
-        drop_table_command4 = '''DROP TABLE IF EXISTS table4'''
-        self.cursor.execute(drop_table_command)
+        drop_client_table = '''DROP TABLE IF EXISTS client CASCADE'''
+        drop_table_command2 = '''DROP TABLE IF EXISTS contact'''
+        drop_table_command3 = '''DROP TABLE IF EXISTS question'''
+        self.cursor.execute(drop_client_table)
         self.cursor.execute(drop_table_command2)
         self.cursor.execute(drop_table_command3)
-        self.cursor.execute(drop_table_command4)
 
         self.connection.commit()
 
     def create_table(self):
-        create_table1_command = '''CREATE TABLE IF NOT EXISTS table1(
+        create_client_table = '''CREATE TABLE IF NOT EXISTS client(
                                     ticketID INTEGER,
+                                    clientID INT,
                                     clientName VARCHAR (200) NOT NULL,
                                     mobileNo VARCHAR (200) NOT NULL,
                                     dateCreated VARCHAR (200) NOT NULL,
                                     CONSTRAINT PK PRIMARY KEY (ticketID)
                                     )'''
+        self.cursor.execute(create_client_table)
 
-        self.cursor.execute(create_table1_command)
-
-        create_table2_command = '''CREATE TABLE IF NOT EXISTS table2(
-                                  ticketID INTEGER references table1(ticketID),
+        create_contact_table = '''CREATE TABLE IF NOT EXISTS contact(
+                                  ticketID INTEGER references client(ticketID),
                                   contactType VARCHAR (200) NOT NULL,
                                   callType VARCHAR (200) NOT NULL,
                                   sourceName VARCHAR (200) NOT NULL,
                                   storeName VARCHAR (200) NOT NULL,
                                   dispositionName VARCHAR (200) NOT NULL
                                   )'''
-        self.cursor.execute(create_table2_command)
+        self.cursor.execute(create_contact_table)
 
-        create_table3_command = '''CREATE TABLE IF NOT EXISTS table3(
-                                  ticketID INTEGER references table1(ticketID),
+        create_question_table = '''CREATE TABLE IF NOT EXISTS question(
+                                  ticketID INTEGER references client(ticketID),
                                   questionType VARCHAR (200) NOT NULL,
                                   questionSubType VARCHAR (200) NOT NULL
                                   )'''
-        self.cursor.execute(create_table3_command)
+        self.cursor.execute(create_question_table)
 
-        create_table4_command = '''CREATE TABLE IF NOT EXISTS table4(
-                                  ticketID INTEGER references table1(ticketID),
-
-                                  )'''
-        self.cursor.execute(create_table4_command)
 
         self.connection.commit()
 
@@ -74,20 +67,20 @@ class DatabaseConnection:
                               client['storeName'], client['questionType'], client['questionSubType'],
                               client['dispositionName'], client['dateCreated'])
 
-                insert_command = "INSERT INTO table1(ticketID, clientName, mobileNo, dateCreated) VALUES('" + \
+                insert_clients = "INSERT INTO client(ticketID, clientName, mobileNo, dateCreated) VALUES('" + \
                     new_record[0] + "', '" + new_record[1] + "', '" + \
                     new_record[2] + "', '" + new_record[10] + "')"
-                self.cursor.execute(insert_command)
+                self.cursor.execute(insert_clients)
 
-                insert_command2 = "INSERT INTO table2(ticketID, contactType, callType, sourceName, storeName, dispositionName) VALUES('" + \
+                insert_contacts = "INSERT INTO contact(ticketID, contactType, callType, sourceName, storeName, dispositionName) VALUES('" + \
                     new_record[0] + "', '" + new_record[3] + "','" + new_record[4] + "', '"+new_record[5] + "', '" + \
                     new_record[8] + "', '"+new_record[9] + "')"
-                self.cursor.execute(insert_command2)
+                self.cursor.execute(insert_contacts)
 
-                insert_command3 = "INSERT INTO table3(ticketID,  questionType, questionSubType) VALUES('" + \
+                insert_question = "INSERT INTO question(ticketID,  questionType, questionSubType) VALUES('" + \
                     new_record[0] + "', '" + new_record[6] + \
                     "','" + new_record[7] + "')"
-                self.cursor.execute(insert_command3)
+                self.cursor.execute(insert_question)
 
                 self.connection.commit()
 

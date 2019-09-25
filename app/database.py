@@ -101,15 +101,15 @@ class DatabaseConnection:
 
     def query_all(self):
         self.cursor.execute("SELECT ticketID, clientname, mobileno, datecreated,  contactType, \
-			                callType, sourceName, storeName, dispositionName, questionType, \
-				            questionSubType FROM client JOIN contact ON client.ticketid=contact.id \
-					        INNER JOIN question  on  question.id=client.ticketid")
+                            callType, sourceName, storeName, dispositionName, questionType, \
+                            questionSubType FROM client JOIN contact ON client.ticketid=contact.id \
+                            INNER JOIN question  on  question.id=client.ticketid")
 
         clients = self.cursor.fetchall()
-        print(tabulate.tabulate(clients, headers=["ticketID", "clientName", "mobileNo", \
-			                                     "dateCreated", "contactType", "callType", \
-				                                 "sourceName", "storeName", "dispositionName", \
-					                             "questiontype", "questionsubtype"]))
+        print(tabulate.tabulate(clients,  tablefmt="grid", headers=["ticketID", "clientName", "mobileNo", \
+                                                "dateCreated", "contactType", "callType", \
+                                                "sourceName", "storeName", "dispositionName", \
+                                                "questiontype", "questionsubtype"]))
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 # Interview Question
-- A link was provided that contains a json file which contains data extracted from Calltronix clients,
+- A link was provided that contains a json file which contains data extracted from Calltronix clients
 
 
 ## Description
@@ -77,5 +77,5 @@
 ## Database schema
 
 <br />
-<img width="500" alt="database-schema" src="https://github.com/salma-nyagaka/practical-interview/blob/chore-rectify-mistakes/app/schema.jpg">
+<img width="500" alt="database-schema" src="https://github.com/salma-nyagaka/practical-interview/blob/develop/app/schema.jpg">
 <br />
